@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../shared/services/user.service';
+import { User } from '../shared/model/user/user.model';
 
 @Component({
   selector: 'app-user-list',
@@ -6,14 +8,22 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent implements OnInit {
-  public users: string[];
+  public users: User[];
 
   constructor(
-    // il faut probablement injecter un service ici !
+    private userService : UserService
   ) { }
 
   ngOnInit() {
-    // il faut initialiser les users ici avec le service
+    this.userService.user.subscribe(
+      users => this.users=users
+    );
+  }
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    //this.userService.user.unsubscrie()
   }
 
 }
